@@ -24,6 +24,9 @@ public class WordLists
 	private TreeMap<String, Integer> map;
 	private ReverseStringComp REVERSE_ORDER;
 
+	/**
+	 * Comparator for the BackwardsOrder
+	 */
 	private final class ReverseStringComp implements Comparator<String>
 	{
 		public int compare(String s1, String s2)
@@ -33,12 +36,13 @@ public class WordLists
 	}
 	
 	/**
-	 * @param inputFileName
+	 * @param inputFileName file containing the text to analyze
 	 */
 	public WordLists(String inputFileName)
 	{
 		map = new TreeMap<String, Integer>();
 		REVERSE_ORDER = new ReverseStringComp();
+		
 		try
 		{
 			in = new BufferedReader(new FileReader(inputFileName));
@@ -50,8 +54,10 @@ public class WordLists
 	}
 	
 	/**
-	 * @param c
-	 * @return
+	 * @param c character to check
+	 * @return true if the character is a punctuation-character, false if not
+	 * 
+	 * Returns whether a given character is a punctuation-character or not
 	 */
 	private boolean isPunctuationChar(char c)
 	{
@@ -60,8 +66,10 @@ public class WordLists
 	}
 	
 	/**
-	 * @return
+	 * @return String containing the next word
 	 * @throws IOException
+	 * 
+	 * Reads one word from the text-file.
 	 */
 	private String getWord() throws IOException
 	{
@@ -98,7 +106,8 @@ public class WordLists
 	}
 	
 	/**
-	 * @param s
+	 * @param s word to add to the Map
+	 * Adds a word the the Map, if the word exists the frequency is incremented
 	 */
 	public void addWord(String s)
 	{
@@ -109,8 +118,8 @@ public class WordLists
 	}
 	
 	/**
-	 * @param s
-	 * @return
+	 * @param s String to reverse
+	 * @return a reversed version of s
 	 */
 	private static String reverse(String s)
 	{
@@ -119,7 +128,7 @@ public class WordLists
 	}
 	
 	/**
-	 * 
+	 * Writes a list of all words and their frequency to a file, sorted by word
 	 */
 	private void computeWordFrequencies()
 	{
@@ -142,7 +151,7 @@ public class WordLists
 	}
 
 	/**
-	 * 
+	 * Writes a list of all words and their frequency to a file, sorted by frequency
 	 */
 	private void computeFrequencyMap()
 	{
@@ -185,7 +194,7 @@ public class WordLists
 	}
 
 	/**
-	 * 
+	 * Writes list of all words to a file, sorted backwards by word
 	 */
 	private void computeBackwardsOrder()
 	{
