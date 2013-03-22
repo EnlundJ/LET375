@@ -27,6 +27,9 @@ public class WordLists
 		}
 	}
 	
+	/**
+	 * @param inputFileName
+	 */
 	public WordLists(String inputFileName)
 	{
 		map = new TreeMap<String, Integer>();
