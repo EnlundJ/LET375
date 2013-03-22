@@ -49,10 +49,11 @@ public class AngloTrainer {
 			System.out.println(word);
 	}
 
-    	/**
-	 * @param fileName
+    /**
+	 * @param fileName the file to read
 	 * @throws IOException
 	 * @throws FileNotFoundException
+	 * 
 	 * Read the dictionary into a suitable container.
 	 * The file is a simple text file. One word per line.
 	 */
@@ -74,14 +75,15 @@ public class AngloTrainer {
 	}
 
 	/**
-	 * @param length
-	 * @return
-	 * this makes vovels a little more likely
+	 * @param length number of letters in the string
+	 * @return a String of random letters
+	 * 
+	 * Creates a String of [length] random letters
 	 */
 	private String randomLetters( int length )
 	{
 		Random randomGenerator = new Random();
-	    String letters = "aabcdeefghiijklmnoopqrstuuvwxyyz";  
+	    String letters = "aabcdeefghiijklmnoopqrstuuvwxyyz";  //this makes vovels a little more likely
 	    StringBuffer buf = new StringBuffer(length);
 		for ( int i = 0; i < length; i++ ) 
 		    buf.append( letters.charAt(randomGenerator.nextInt(letters.length())));
@@ -89,9 +91,9 @@ public class AngloTrainer {
 	}
 	
 	/**
-	 * @param a
-	 * @param b
-	 * @return
+	 * @param a String to search in, needs to be sorted
+	 * @param b String to search for in a, needs to be sorted
+	 * @return true if the letters in b is included in a, false if not
 	 * 
 	 * Def. includes	
 	 * Let #(x,s) = the number of occurrences of the charcter x in the string s.
@@ -125,7 +127,7 @@ public class AngloTrainer {
 	}
 	
 	/**
-	 * @return
+	 * @return length of the longest word in the dictionary
 	 */
 	public int getLengthOfLongestWord()
 	{
@@ -133,8 +135,8 @@ public class AngloTrainer {
 	}
 	
 	/**
-	 * @param s
-	 * @return
+	 * @param s String to be sorted
+	 * @return String consisting of the letters in s sorted
 	 */
 	private String sort(String s)
 	{
@@ -144,8 +146,10 @@ public class AngloTrainer {
 	}
 	
 	/**
-	 * @param s
-	 * @return
+	 * @param s String to check
+	 * @return true if the word is OK, false if not
+	 * 
+	 * Checks if the word is in the dictionary and consists of only letters from rndLetters
 	 */
 	public boolean checkWord(String s)
 	{
@@ -166,7 +170,7 @@ public class AngloTrainer {
 	}
 	
 	/**
-	 * @return
+	 * @return the String of random letters that is to be used
 	 */
 	public String getRndLetters()
 	{
@@ -174,7 +178,9 @@ public class AngloTrainer {
 	}
 	
 	/**
-	 * 
+	 * Finds all remaining valid words
+	 * Words may only contain letters from the random letters
+	 * Words already found by the player is not listed
 	 */
 	public void findWords()
 	{
@@ -195,24 +201,27 @@ public class AngloTrainer {
     	{
     		BufferedReader in = new BufferedReader(new InputStreamReader(System.in,encoding));
 
-    		String line;
-    		while((line = in.readLine()) != null)
+    		String line = in.readLine();
+    		while ( line != null ) //FIXME: Ctrl-D
     		{
     			if(a.checkWord(line))
+    			{
     				System.out.println("OK\n");
+    				a.addPlayerWord(line);
+    			}
     			else
     				break;
+    			line = in.readLine();
     		}
     	}
-    	catch(IOException e)
+    	catch(Exception e)
     	{
-    		System.out.println("I/O error: " + e);
+    		//FIXME
     	}
 
     	System.out.println("I found:");
     	a.findWords();
     }
-
 }
 
 
