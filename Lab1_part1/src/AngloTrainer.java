@@ -1,7 +1,7 @@
 // Author(s): Einar Blaberg and Niklas Beischer
 // Email:	einar.blaberg@gmail.com, niklas.beischer@gmail.com
-// Fire-groupID: FIXME
-// Date:	2013-03-21
+// Fire-groupID: 19
+// Date:	2013-03-22
 
 import java.util.Arrays;
 import java.util.HashSet;
