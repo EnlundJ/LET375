@@ -17,19 +17,20 @@ public class WordLists
 {
 	private Reader in = null;
 	private TreeMap<String, Integer> map;
+	private ReverseStringComp REVERSE_ORDER;
 
-	static final Comparator<String> REVERSE_ORDER = 
-			new Comparator<String>() {
-
+	private final class ReverseStringComp implements Comparator<String>
+	{
 		public int compare(String s1, String s2)
 		{
 			return WordLists.reverse(s1).compareTo(WordLists.reverse(s2));
 		}
-	};
-
+	}
+	
 	public WordLists(String inputFileName)
 	{
 		map = new TreeMap<String, Integer>();
+		REVERSE_ORDER = new ReverseStringComp();
 		try
 		{
 			in = new BufferedReader(new FileReader(inputFileName));
@@ -120,9 +121,8 @@ public class WordLists
 				fmap.put(entry.getValue(), tmpset);
 			}
 			else
-			{
 				tmpset=fmap.get(entry.getValue());
-			}
+
 			tmpset.add(entry.getKey());
 		}
 		
@@ -159,7 +159,7 @@ public class WordLists
 		{
 		    out = new PrintStream(new FileOutputStream("backwardsSorted.txt"));
 			for(String bWord : reverseSet)
-				out.println(bWord);
+				out.println("                              ".substring(bWord.length()) + bWord);
 		}
 		catch(FileNotFoundException e)
 		{
@@ -170,21 +170,16 @@ public class WordLists
 		    if (out != null)
 		    	out.close();
 		}		
-//		for(Map.Entry<String,Integer> entry : map.entrySet())
-//			System.out.println(WordLists.reverse(entry.getKey()) + ": " + entry.getValue());
 	}
 
-	public static void main(String[] args) throws IOException {
-		String word;
+	public static void main(String[] args) throws IOException
+	{
 //		WordLists wl = new WordLists(args[0]);  // arg[0] contains the input file name
 		WordLists wl = new WordLists("provtext.txt");  
-		
-		word=wl.getWord();
-		while(word != null)
-		{
+
+		String word;
+		while((word=wl.getWord()) != null)
 			wl.addWord(word);
-			word=wl.getWord();
-		}
 		
 		wl.computeWordFrequencies();
 		wl.computeBackwardsOrder();
