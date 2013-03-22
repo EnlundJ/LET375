@@ -201,22 +201,18 @@ public class AngloTrainer {
     	{
     		BufferedReader in = new BufferedReader(new InputStreamReader(System.in,encoding));
 
-    		String line = in.readLine();
-    		while ( line != null ) //FIXME: Ctrl-D
+    		String line; 
+    		while((line = in.readLine()) != null)
     		{
     			if(a.checkWord(line))
-    			{
     				System.out.println("OK\n");
-    				a.addPlayerWord(line);
-    			}
     			else
     				break;
-    			line = in.readLine();
     		}
     	}
-    	catch(Exception e)
+    	catch(IOException e)
     	{
-    		//FIXME
+    		System.out.println("I/O error: " + e);
     	}
 
     	System.out.println("I found:");
