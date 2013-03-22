@@ -155,7 +155,14 @@ public class AngloTrainer {
 			System.out.println("Your suggestion contains wrong letters");
 		if(!isAWord)
 			System.out.println("Your suggestion was not found in the dictionary");
-		return (hasCorrectLetters && isAWord);
+		
+		if(hasCorrectLetters && isAWord)
+		{
+			playerWords.add(s);
+			return true;
+		}
+		else
+			return false;
 	}
 	
 	/**
@@ -164,14 +171,6 @@ public class AngloTrainer {
 	public String getRndLetters()
 	{
 		return rndLetters;
-	}
-	
-	/**
-	 * @param s
-	 */
-	public void addPlayerWord(String s)
-	{
-		playerWords.add(s);
 	}
 	
 	/**
@@ -186,7 +185,7 @@ public class AngloTrainer {
 
     public static void main(String[] args)
     {
-    	AngloTrainer a = new AngloTrainer("dictionary.txt");
+    	AngloTrainer a = new AngloTrainer(args[0]);
 
     	String encoding = System.getProperty("file.encoding");
     	System.out.println("The random letters are: " + a.getRndLetters());
@@ -196,27 +195,24 @@ public class AngloTrainer {
     	{
     		BufferedReader in = new BufferedReader(new InputStreamReader(System.in,encoding));
 
-    		String line = in.readLine();
-    		while ( line != null ) //FIXME: Ctrl-D
+    		String line;
+    		while((line = in.readLine()) != null)
     		{
     			if(a.checkWord(line))
-    			{
     				System.out.println("OK\n");
-    				a.addPlayerWord(line);
-    			}
     			else
     				break;
-    			line = in.readLine();
     		}
     	}
-    	catch(Exception e)
+    	catch(IOException e)
     	{
-    		//FIXME
+    		System.out.println("I/O error: " + e);
     	}
 
     	System.out.println("I found:");
     	a.findWords();
     }
+
 }
 
 
