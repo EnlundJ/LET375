@@ -140,7 +140,7 @@ public class AngloTrainer {
 	}
 
     public static void main(String[] args) {
-    	AngloTrainer a = new AngloTrainer("C:\\Users\\eb\\workspace\\LET375 Lab1\\bin\\dictionary.txt");
+    	AngloTrainer a = new AngloTrainer("dictionary.txt");
 
     	String encoding = System.getProperty("file.encoding");
     	System.out.println("The random letters are: " + a.getRndLetters());

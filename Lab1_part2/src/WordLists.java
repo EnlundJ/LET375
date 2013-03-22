@@ -1,20 +1,31 @@
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.Reader;
+import java.io.PrintStream;
+import java.util.Map;
 import java.util.TreeMap;
-import java.util.Set;
 import java.util.TreeSet;
-
+import java.util.Comparator;
 
 // Author(s): Einar Blaberg and Niklas Beischer
 // Email:	einar.blaberg@gmail.com, niklas.beischer@gmail.com
 // Date:	2013-03-21
-
-public class WordLists {
+public class WordLists
+{
 	private Reader in = null;
-	private TreeMap<String, Integer> map; 
+	private TreeMap<String, Integer> map;
+
+	static final Comparator<String> REVERSE_ORDER = 
+			new Comparator<String>() {
+
+		public int compare(String s1, String s2)
+		{
+			return WordLists.reverse(s1).compareTo(WordLists.reverse(s2));
+		}
+	};
 
 	public WordLists(String inputFileName)
 	{
@@ -26,10 +37,6 @@ public class WordLists {
 		catch(FileNotFoundException e)
 		{
 			System.out.println("File not found!" + e.toString());
-		}
-		catch(IOException e)
-		{
-			System.out.println("IOError!" + e.toString());
 		}
 	}
 	
@@ -75,51 +82,102 @@ public class WordLists {
 		map.put(s, ++current);
 	}
 	
-	private String reverse(String s) {
-	    // define!
-		return "";
+	private static String reverse(String s)
+	{
+		StringBuffer sbuf = new StringBuffer(s);
+		return sbuf.reverse().toString();
 	}
 	
 	private void computeWordFrequencies()
 	{
-		for(String word : map.keySet())
+		PrintStream out = null;
+		try
 		{
-			System.out.println(word + ": " + map.get(word));
+		    out = new PrintStream(new FileOutputStream("alfaSorted.txt"));
+			for(Map.Entry<String,Integer> entry : map.entrySet())
+				out.println(entry.getKey() + ": " + entry.getValue());
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.println("File not found!" + e.toString());
+		}
+		finally
+		{
+		    if (out != null)
+		    	out.close();
 		}
 	}
-	
 
 	private void computeFrequencyMap()
 	{
 		TreeMap<Integer, TreeSet<String>> fmap = new TreeMap<Integer, TreeSet<String>>(); 
-		int freq=0;
 		TreeSet<String> tmpset;
-		for(String word : map.keySet())
+		for(Map.Entry<String,Integer> entry : map.entrySet())
 		{
-			freq=map.get(word);
-
-			if(!fmap.containsKey(freq))
+			if(!fmap.containsKey(entry.getValue()))
 			{
 				tmpset=new TreeSet<String>();
-				fmap.put(freq, tmpset);
+				fmap.put(entry.getValue(), tmpset);
 			}
 			else
 			{
-				tmpset=fmap.get(freq);
+				tmpset=fmap.get(entry.getValue());
 			}
-			tmpset.add(word);
+			tmpset.add(entry.getKey());
 		}
-		System.out.println(fmap);
+		
+		PrintStream out = null;
+		try
+		{
+		    out = new PrintStream(new FileOutputStream("frequencySorted.txt"));
+			for(Map.Entry<Integer, TreeSet<String>> entry : fmap.descendingMap().entrySet())
+			{
+				out.println(entry.getKey().toString() + ": ");
+				for(String s : entry.getValue())
+					out.println("    " + s);
+			}
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.println("File not found!" + e.toString());
+		}
+		finally
+		{
+		    if (out != null)
+		    	out.close();
+		}
 	}
 
-	private void computeBackwardsOrder() {
-	    // define!
+	private void computeBackwardsOrder()
+	{
+		TreeSet<String> reverseSet = new TreeSet<String>(REVERSE_ORDER);
+		for(String word : map.keySet())
+			reverseSet.add(word);
+
+		PrintStream out = null;
+		try
+		{
+		    out = new PrintStream(new FileOutputStream("backwardsSorted.txt"));
+			for(String bWord : reverseSet)
+				out.println(bWord);
+		}
+		catch(FileNotFoundException e)
+		{
+			System.out.println("File not found!" + e.toString());
+		}
+		finally
+		{
+		    if (out != null)
+		    	out.close();
+		}		
+//		for(Map.Entry<String,Integer> entry : map.entrySet())
+//			System.out.println(WordLists.reverse(entry.getKey()) + ": " + entry.getValue());
 	}
 
 	public static void main(String[] args) throws IOException {
 		String word;
 //		WordLists wl = new WordLists(args[0]);  // arg[0] contains the input file name
-		WordLists wl = new WordLists("C:\\Users\\eb\\workspace\\LET375 Lab1\\src\\provtext.txt");  
+		WordLists wl = new WordLists("provtext.txt");  
 		
 		word=wl.getWord();
 		while(word != null)
