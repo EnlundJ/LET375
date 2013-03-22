@@ -7,12 +7,18 @@ import java.util.HashSet;
 import java.io.*;
 import java.util.Random;
 
+/**
+ * @author Einar Blaberg and Niklas Beischer
+ */
 public class AngloTrainer {
 	private HashSet<String> dict;
 	private HashSet<String> playerWords;
 	private int lengthOfLongestWord;
 	private String rndLetters;
 
+	/**
+	 * @param dictionaryFile
+	 */
 	public AngloTrainer(String dictionaryFile) //throws IOException {
 	{
 		dict = new HashSet<String>();
@@ -33,8 +39,9 @@ public class AngloTrainer {
 
 	}
 
-	// use this to verify loadDictionary
-    // Print out the dictionary at the screen.
+	/**
+	 * Prints the dictionary to STDOUT
+	 */
 	private void dumpDict()
 	{
 		for(String word : dict)
