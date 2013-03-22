@@ -1,5 +1,6 @@
 // Author(s): Einar Blaberg and Niklas Beischer
 // Email:	einar.blaberg@gmail.com, niklas.beischer@gmail.com
+// Fire-groupID: FIXME
 // Date:	2013-03-21
 
 import java.util.Arrays;
@@ -14,12 +15,12 @@ public class AngloTrainer {
 	private HashSet<String> dict;
 	private HashSet<String> playerWords;
 	private int lengthOfLongestWord;
-	private String rndLetters;
+	private String rndLetters, sortedRndLetters; 
 
 	/**
 	 * @param dictionaryFile
 	 */
-	public AngloTrainer(String dictionaryFile) //throws IOException {
+	public AngloTrainer(String dictionaryFile) //throws IOException
 	{
 		dict = new HashSet<String>();
     	playerWords = new HashSet<String>();
@@ -36,7 +37,7 @@ public class AngloTrainer {
 		}
 
 		rndLetters=randomLetters(getLengthOfLongestWord());
-
+		sortedRndLetters=this.sort(rndLetters);
 	}
 
 	/**
@@ -48,8 +49,13 @@ public class AngloTrainer {
 			System.out.println(word);
 	}
 
-    // Read the dictionary into a suitable container.
-    // The file is a simple text file. One word per line.
+    	/**
+	 * @param fileName
+	 * @throws IOException
+	 * @throws FileNotFoundException
+	 * Read the dictionary into a suitable container.
+	 * The file is a simple text file. One word per line.
+	 */
 	private void loadDictionary( String fileName ) throws IOException, FileNotFoundException 
 	{
 		BufferedReader reader =
@@ -67,7 +73,11 @@ public class AngloTrainer {
 		System.out.println(dict.size() + " words loaded from the " + fileName);
 	}
 
-    // this makes vovels a little more likely
+	/**
+	 * @param length
+	 * @return
+	 * this makes vovels a little more likely
+	 */
 	private String randomLetters( int length )
 	{
 		Random randomGenerator = new Random();
@@ -78,15 +88,20 @@ public class AngloTrainer {
 	    return buf.toString();
 	}
 	
-	
-	/* Def. includes	
+	/**
+	 * @param a
+	 * @param b
+	 * @return
+	 * 
+	 * Def. includes	
 	 * Let #(x,s) = the number of occurrences of the charcter x in the string s.
 	 * includes(a,b) holds iff for every character x in b, #(x,b) <= #(x,a)
 	 * 
 	 * A neccessary precondition for includes is that both strings are sorted
 	 * in ascending order.
 	 */
-	private boolean includes( String a, String b ) {
+	private boolean includes( String a, String b )
+	{
 		if ( b == null || b.length() == 0 )
 			return true;
 		else if ( a == null || a.length() == 0 )
@@ -94,23 +109,33 @@ public class AngloTrainer {
 		
 		//precondition: a.length() > 0 && b.length() > 0
 		int i = 0, j = 0;
-		while ( j < b.length() ) {
+		while ( j < b.length() )
+		{
 			if (i >= a.length() || b.charAt(j) < a.charAt(i))
 				return false;
-			else if (b.charAt(j) == a.charAt(i)) {
+			else if (b.charAt(j) == a.charAt(i))
+			{
 				i++; j++;
-			} else if (b.charAt(j) > a.charAt(i))
+			}
+			else if (b.charAt(j) > a.charAt(i))
 				i++;
 		}
 		//postcondition: j == b.length()
 		return true;
 	}
 	
+	/**
+	 * @return
+	 */
 	public int getLengthOfLongestWord()
 	{
 		return lengthOfLongestWord;
 	}
 	
+	/**
+	 * @param s
+	 * @return
+	 */
 	private String sort(String s)
 	{
 		char[] temp = s.toCharArray();
@@ -118,9 +143,13 @@ public class AngloTrainer {
 		return new String(temp);
 	}
 	
+	/**
+	 * @param s
+	 * @return
+	 */
 	public boolean checkWord(String s)
 	{
-		boolean hasCorrectLetters=includes(this.sort(rndLetters), this.sort(s));
+		boolean hasCorrectLetters=includes(sortedRndLetters, this.sort(s));
 		boolean isAWord=dict.contains(s);
 		if(!hasCorrectLetters)
 			System.out.println("Your suggestion contains wrong letters");
@@ -129,24 +158,34 @@ public class AngloTrainer {
 		return (hasCorrectLetters && isAWord);
 	}
 	
+	/**
+	 * @return
+	 */
 	public String getRndLetters()
 	{
 		return rndLetters;
 	}
 	
+	/**
+	 * @param s
+	 */
 	public void addPlayerWord(String s)
 	{
 		playerWords.add(s);
 	}
 	
+	/**
+	 * 
+	 */
 	public void findWords()
 	{
 		for(String word : dict)
-			if(!playerWords.contains(word) && includes(this.sort(rndLetters), this.sort(word)))
+			if(!playerWords.contains(word) && includes(sortedRndLetters, this.sort(word)))
 				System.out.println(word);
 	}
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
     	AngloTrainer a = new AngloTrainer("dictionary.txt");
 
     	String encoding = System.getProperty("file.encoding");
@@ -178,7 +217,6 @@ public class AngloTrainer {
     	System.out.println("I found:");
     	a.findWords();
     }
-
 }
 
 
