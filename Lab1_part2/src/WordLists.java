@@ -222,8 +222,7 @@ public class WordLists
 
 	public static void main(String[] args) throws IOException
 	{
-		//FIXME: WordLists wl = new WordLists(args[0]);  // arg[0] contains the input file name
-		WordLists wl = new WordLists("provtext.txt");  
+		WordLists wl = new WordLists(args[0]);  // arg[0] contains the input file name
 
 		String word;
 		while((word=wl.getWord()) != null)
