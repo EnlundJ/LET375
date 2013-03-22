@@ -1,33 +1,73 @@
-// Author(s):
-// Email:	
-// Date:	
+// Author(s): Einar Blaberg and Niklas Beischer
+// Email:	einar.blaberg@gmail.com, niklas.beischer@gmail.com
+// Date:	2013-03-21
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.io.*;
+import java.util.Random;
 
 public class AngloTrainer {
-	// ...
+	private HashSet<String> dict;
+	private HashSet<String> playerWords;
+	private int lengthOfLongestWord;
+	private String rndLetters;
 
-	public AngloTrainer(String dictionaryFile) throws IOException {
-	    // ... define!
+	public AngloTrainer(String dictionaryFile) //throws IOException {
+	{
+		dict = new HashSet<String>();
+    	playerWords = new HashSet<String>();
+		lengthOfLongestWord=5;
+		
+		try {
+			loadDictionary(dictionaryFile);
+		}
+		catch(FileNotFoundException e) {
+			System.out.println("File not found!\n" + e.toString());
+			}
+		catch(IOException e) {
+			System.out.println("IOError!\n");
+		}
+
+		rndLetters=randomLetters(getLengthOfLongestWord());
+
 	}
 
 	// use this to verify loadDictionary
-	private void dumpDict() {
-	    // Print out the dictionary at the screen.
-          // ... define!
+    // Print out the dictionary at the screen.
+	private void dumpDict()
+	{
+		for(String word : dict)
+			System.out.println(word);
 	}
 
-	private void loadDictionary( String fileName ) {
-	    // Read the dictionary into a suitable container.
-	    // The file is a simple text file. One word per line.
-          // ... define!
+    // Read the dictionary into a suitable container.
+    // The file is a simple text file. One word per line.
+	private void loadDictionary( String fileName ) throws IOException, FileNotFoundException 
+	{
+		BufferedReader reader =
+				new BufferedReader(
+						new FileReader(fileName));
+		String line = reader.readLine();
+		while(line != null) {
+			dict.add(line);
+			int lineLen = line.length();
+			if(lineLen > lengthOfLongestWord)
+				lengthOfLongestWord = lineLen;
+			line = reader.readLine();
+		}
+		reader.close();
+		System.out.println(dict.size() + " words loaded from the " + fileName);
 	}
 
-	private String randomLetters( int length ) {
-	    // this makes vovels a little more likely
+    // this makes vovels a little more likely
+	private String randomLetters( int length )
+	{
+		Random randomGenerator = new Random();
 	    String letters = "aabcdeefghiijklmnoopqrstuuvwxyyz";  
 	    StringBuffer buf = new StringBuffer(length);
-	    for ( int i = 0; i < length; i++ ) 
+		for ( int i = 0; i < length; i++ ) 
 		    buf.append( letters.charAt(randomGenerator.nextInt(letters.length())));
-	
 	    return buf.toString();
 	}
 	
@@ -59,37 +99,79 @@ public class AngloTrainer {
 		return true;
 	}
 	
-     // This is just for demonstration purposes.
-	private void testIncludes() { 
-		//                                            expected value
-		System.out.println(includes("abc",""));		//t
-		System.out.println(includes("","abc"));		//f
-		System.out.println(includes("abc","abc"));	//t
-		System.out.println(includes("abc","bcd"));	//f
-		System.out.println(includes("abc","a"));	//t
-		System.out.println(includes("abc","b"));	//t
-		System.out.println(includes("abc","c"));	//t
-		System.out.println(includes("abc","ab"));	//t
-		System.out.println(includes("abc","bc"));	//t
-		System.out.println(includes("abc","ac"));	//t
-		System.out.println(includes("abc","abcd"));	//f
-		System.out.println(includes("abc","abd"));	//f
-		System.out.println(includes("abc","d"));	//f
-		System.out.println(includes("",""));		//t
-		System.out.println(includes("abc","ca"));	//f
-		System.out.println(includes("abc","bac"));	//f
-		System.out.println(includes("abc","abbc"));	//f
-		System.out.println(includes("abbc","abc"));	//t
-		System.out.println(includes(null,null));    //t
-		System.out.println(includes(null,""));	    //t
-		System.out.println(includes(null,"abc"));	//f
-		System.out.println(includes("",null));		//t
-		System.out.println(includes("abc",null));   //t
+	public int getLengthOfLongestWord()
+	{
+		return lengthOfLongestWord;
+	}
+	
+	private String sort(String s)
+	{
+		char[] temp = s.toCharArray();
+		Arrays.sort(temp);
+		return new String(temp);
+	}
+	
+	public boolean checkWord(String s)
+	{
+		boolean hasCorrectLetters=includes(this.sort(rndLetters), this.sort(s));
+		boolean isAWord=dict.contains(s);
+		if(!hasCorrectLetters)
+			System.out.println("Your suggestion contains wrong letters");
+		if(!isAWord)
+			System.out.println("Your suggestion was not found in the dictionary");
+		return (hasCorrectLetters && isAWord);
+	}
+	
+	public String getRndLetters()
+	{
+		return rndLetters;
+	}
+	
+	public void addPlayerWord(String s)
+	{
+		playerWords.add(s);
+	}
+	
+	public void findWords()
+	{
+		for(String word : dict)
+			if(!playerWords.contains(word) && includes(this.sort(rndLetters), this.sort(word)))
+				System.out.println(word);
 	}
 
     public static void main(String[] args) {
-        // ... define!
+    	AngloTrainer a = new AngloTrainer("C:\\Users\\eb\\workspace\\LET375 Lab1\\bin\\dictionary.txt");
+
+    	String encoding = System.getProperty("file.encoding");
+    	System.out.println("The random letters are: " + a.getRndLetters());
+    	System.out.println("Try to build as many words from these letters as you can!");
+
+    	try
+    	{
+    		BufferedReader in = new BufferedReader(new InputStreamReader(System.in,encoding));
+
+    		String line = in.readLine();
+    		while ( line != null ) //FIXME: Ctrl-D
+    		{
+    			if(a.checkWord(line))
+    			{
+    				System.out.println("OK\n");
+    				a.addPlayerWord(line);
+    			}
+    			else
+    				break;
+    			line = in.readLine();
+    		}
+    	}
+    	catch(Exception e)
+    	{
+    		//FIXME
+    	}
+
+    	System.out.println("I found:");
+    	a.findWords();
     }
+
 }
 
 
