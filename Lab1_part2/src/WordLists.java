@@ -1,3 +1,8 @@
+// Author(s): Einar Blaberg and Niklas Beischer
+// Email:	einar.blaberg@gmail.com, niklas.beischer@gmail.com
+// Fire-groupID: 19
+// Date:	2013-03-22
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,9 +15,9 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.Comparator;
 
-// Author(s): Einar Blaberg and Niklas Beischer
-// Email:	einar.blaberg@gmail.com, niklas.beischer@gmail.com
-// Date:	2013-03-21
+/**
+ * @author Einar Blaberg and Niklas Beischer
+ */
 public class WordLists
 {
 	private Reader in = null;
@@ -44,23 +49,36 @@ public class WordLists
 		}
 	}
 	
-	private boolean isPunctuationChar(char c) {
+	/**
+	 * @param c
+	 * @return
+	 */
+	private boolean isPunctuationChar(char c)
+	{
 	    final String punctChars = ",.:;?!";
 	    return punctChars.indexOf(c) != -1;
 	}
 	
-	private String getWord() throws IOException {
+	/**
+	 * @return
+	 * @throws IOException
+	 */
+	private String getWord() throws IOException
+	{
 		int state = 0;
 		int i;
 		String word = "";
-		while ( true ) {
+		while ( true )
+		{
 			i = in.read();
 			char c = (char)i;
-			switch ( state ) {
+			switch ( state )
+			{
 			case 0:
 				if ( i == -1 )
 					return null;
-				if ( Character.isLetter( c ) ) {
+				if ( Character.isLetter( c ) )
+				{
 					word += Character.toLowerCase( c );
 					state = 1;
 				}
@@ -70,7 +88,8 @@ public class WordLists
 					return word;
 				else if ( Character.isLetter( c ) ) 
 					word += Character.toLowerCase( c );
-				else {
+				else
+				{
 					word = "";
 					state = 0;
 				}
@@ -78,6 +97,9 @@ public class WordLists
 		}
 	}
 	
+	/**
+	 * @param s
+	 */
 	public void addWord(String s)
 	{
 		Integer current=0;
@@ -86,12 +108,19 @@ public class WordLists
 		map.put(s, ++current);
 	}
 	
+	/**
+	 * @param s
+	 * @return
+	 */
 	private static String reverse(String s)
 	{
 		StringBuffer sbuf = new StringBuffer(s);
 		return sbuf.reverse().toString();
 	}
 	
+	/**
+	 * 
+	 */
 	private void computeWordFrequencies()
 	{
 		PrintStream out = null;
@@ -112,10 +141,14 @@ public class WordLists
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void computeFrequencyMap()
 	{
 		TreeMap<Integer, TreeSet<String>> fmap = new TreeMap<Integer, TreeSet<String>>(); 
 		TreeSet<String> tmpset;
+		
 		for(Map.Entry<String,Integer> entry : map.entrySet())
 		{
 			if(!fmap.containsKey(entry.getValue()))
@@ -151,6 +184,9 @@ public class WordLists
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void computeBackwardsOrder()
 	{
 		TreeSet<String> reverseSet = new TreeSet<String>(REVERSE_ORDER);
@@ -177,8 +213,7 @@ public class WordLists
 
 	public static void main(String[] args) throws IOException
 	{
-//		WordLists wl = new WordLists(args[0]);  // arg[0] contains the input file name
-		WordLists wl = new WordLists("provtext.txt");  
+		WordLists wl = new WordLists(args[0]);  // arg[0] contains the input file name
 
 		String word;
 		while((word=wl.getWord()) != null)
