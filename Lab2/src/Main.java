@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Comparator;
 import java.util.Arrays;
+import java.util.Collection;
 
 public class Main {
     public static void main(String[] args) {    
@@ -52,8 +53,20 @@ public class Main {
         	 System.out.println("false");
 
          // Write code to test map here
+         ArrayList<String> l1 = new ArrayList<String>();
+         l1.add("abc"); l1.add("def"); l1.add("gih"); l1.add("ijk");
+         l1.add("lmn"); l1.add("opq"); l1.add("rst"); l1.add("uvxz"); 
+
+         ArrayList<String>l2 = (ArrayList<String>)CollectionOps.map(new ReverseStringFunctor(),l1);
+         System.out.print(l2+"\n"); 
              
          // Write code to test filter here
+         ArrayList<Integer> l3 = new ArrayList<Integer>();
+         l3.add(3); l3.add(76); l3.add(41); l3.add(5);
+         l3.add(14); l3.add(88); l3.add(99); l3.add(10000);
+         
+         ArrayList<Integer> l4 = (ArrayList<Integer>)CollectionOps.filter(new IsEvenFunctor(), l3);
+         System.out.println(l4+"\n");
     }
 }
 
