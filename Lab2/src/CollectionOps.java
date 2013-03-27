@@ -1,8 +1,10 @@
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.Comparator;
 
 public class CollectionOps {
 
@@ -34,6 +36,10 @@ public class CollectionOps {
 	}
 
     // Put your code for less here ...
+	public static <T> boolean less(Collection<T> c1, Collection<T> c2, Comparator<T> comp)
+	{
+		return (comp.compare(Collections.max(c1, comp), Collections.min(c2, comp)) < 0);
+	}
     
     // Example
     public static <T1,T2> Collection<T2>
