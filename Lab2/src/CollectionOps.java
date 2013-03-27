@@ -2,10 +2,23 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Iterator;
 
 public class CollectionOps {
 
     // Put your code for print here ... 
+	public static <T> void print(List<T> l)
+	{
+		System.out.print('[');
+		Iterator<T> iter = l.iterator();
+		while(iter.hasNext())
+		{
+			System.out.print(iter.next().toString());
+			if(iter.hasNext())
+				System.out.print(", ");
+		}
+		System.out.print("]\n");
+	}
     
     // Put your code for reverse here ...
 
