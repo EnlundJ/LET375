@@ -21,6 +21,17 @@ public class CollectionOps {
 	}
     
     // Put your code for reverse here ...
+	public static <T> List<T> reverse(List<T> l)
+	{
+		for(int i=0; i < l.size()/2; i++)
+		{
+			int swapPos = l.size() - (i+1);
+			T temp = l.get(i);
+			l.set(i, l.get(swapPos));
+			l.set(swapPos, temp);
+		}
+		return l;
+	}
 
     // Put your code for less here ...
     
