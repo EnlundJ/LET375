@@ -1,8 +1,6 @@
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Iterator;
 import java.util.Comparator;
 
@@ -13,12 +11,13 @@ public class CollectionOps {
 	{
 		System.out.print('[');
 		Iterator<T> iter = l.iterator();
-		while(iter.hasNext())
-		{
+		
+		if(iter.hasNext())
 			System.out.print(iter.next().toString());
-			if(iter.hasNext())
-				System.out.print(", ");
-		}
+		
+		while(iter.hasNext())
+			System.out.print(", "+iter.next().toString());
+
 		System.out.print("]\n");
 	}
     
