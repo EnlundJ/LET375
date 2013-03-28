@@ -18,7 +18,7 @@ public class CollectionOps {
 		while(iter.hasNext())
 			System.out.print(", "+iter.next().toString());
 
-		System.out.print("]\n");
+		System.out.print("]");
 	}
     
     // Put your code for reverse here ...
