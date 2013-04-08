@@ -1,8 +1,13 @@
+// Author(s): Einar Blaberg and Niklas Beischer
+// Email: einar.blaberg@gmail.com, niklas.beischer@gmail.com
+// Fire-groupID: 19
+// Date: 2013-04-10
+
 /**
  * A collection of utility functions for C style primitive list handling.
  *
- * @author(s)
- * @version 2013-xx-yy
+ * @author(s) Einar Blaberg and Niklas Beischer
+ * @version 2013-04-10
  */
 public class Lists {
    
