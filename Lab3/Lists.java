@@ -3,6 +3,7 @@
 // Fire-groupID: 19
 // Date: 2013-04-10
 
+import java.lang.StringBuilder;
 /**
  * A collection of utility functions for C style primitive list handling.
  *
@@ -102,15 +103,14 @@ public class Lists {
     {
         if(l == null)
             throw new ListsException("Lists: null passed to toString");
-
+        StringBuilder ret = new StringBuilder();
     	ListNode i = l.next;
-    	String ret = "";
     	while(i != null)
     	{
-    		ret += i.element;
+    		ret.append(i.element);
     		i = i.next;    			
     	}
-    	return ret;
+    	return ret.toString();
     }
     
     // Testmetod: JunitListTest.testContains()
@@ -203,13 +203,28 @@ public class Lists {
     }
     
     // Testmetod: JunitListTest.testAddAll()
-    public static ListNode addAll(ListNode l1,ListNode l2) { 
-        return null;
+    public static ListNode addAll(ListNode l1,ListNode l2)
+    { 
+        if(l1 == null || l2 == null)
+        	throw new ListsException("Lists: null passed to addAll");
+        
+        ListNode l2Copy = Lists.copy(l2);
+        return Lists.concat(l1, l2Copy);
     }
       
     // Testmetod: JunitListTest.testReverse()
     public static ListNode reverse(ListNode head)
     {
-        return null;
+        if(head == null)
+            throw new ListsException("Lists: null passed to reverse");
+
+        ListNode ret = new ListNode();
+        ListNode i = head.next;
+        while(i != null)
+        {
+        	Lists.addFirst(ret, i.element);
+        	i = i.next;
+        }
+        return ret;
     }
 }
