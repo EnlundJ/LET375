@@ -100,7 +100,7 @@ public class Lists {
     // Testmetod: JunitListTest.testToString()
     public static String toString(ListNode l)
     {
-        if ( l == null )
+        if(l == null)
             throw new ListsException("Lists: null passed to toString");
 
     	ListNode i = l.next;
@@ -116,7 +116,7 @@ public class Lists {
     // Testmetod: JunitListTest.testContains()
     public static boolean contains(ListNode head,char c)
     {
-        if ( head == null )
+        if(head == null)
             throw new ListsException("Lists: null passed to contains");
 
     	ListNode i = head.next;
@@ -146,7 +146,7 @@ public class Lists {
     // Testmetod: JunitListTest.testAddFirst()
     public static ListNode addFirst(ListNode l,char c)
     {
-        if ( l == null )
+        if(l == null)
             throw new ListsException("Lists: null passed to addFirst");
         
         ListNode first = l.next;
@@ -159,13 +159,27 @@ public class Lists {
     }
          
     // This is a private utility method.
-    private static ListNode getLastNode(ListNode head) {
-        return null;
+    private static ListNode getLastNode(ListNode head)
+    {
+        ListNode i = head;
+        while(i.next != null)
+        	i = i.next;
+
+        return i;
     }
    
     // Testmetod: JunitListTest.testAddLast()
-    public static ListNode addLast(ListNode l,char c) {  
-        return null;
+    public static ListNode addLast(ListNode l,char c)
+    {
+        if(l == null)
+            throw new ListsException("Lists: null passed to addLast");
+    	
+    	ListNode last = Lists.getLastNode(l);
+    	ListNode addition = new ListNode();
+    	addition.element = c;
+    	addition.next = null;
+    	last.next = addition;
+        return l;
     }
     
     // Testmetod: JunitListTest.testConcat()
