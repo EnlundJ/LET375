@@ -132,15 +132,23 @@ public class Lists {
     // Testmetod: JunitListTest.testCopyUpperCase()
     public static ListNode copyUpperCase(ListNode head)
     {
-    	ListNode copy = Lists.copy(head);
-    	ListNode i = copy.next;
+        if(head == null)
+            throw new ListsException("Lists: null passed to copyUpperCase");
+
+    	ListNode ret = new ListNode();
+    	ListNode copy = ret;
+    	ListNode i = head.next;
     	while(i != null)
     	{
-    		if(i.element >= 'a' && i.element <= 'z')
-    			i.element = (char)(i.element - ('a' - 'A'));
+    		if(i.element >= 'A' && i.element <= 'Z')
+    		{
+    			copy.next = new ListNode();
+    			copy.next.element = i.element;
+    			copy = copy.next;
+    		}
     		i = i.next;
     	}
-        return copy;
+        return ret;
     }
     
     // Testmetod: JunitListTest.testAddFirst()
@@ -183,8 +191,15 @@ public class Lists {
     }
     
     // Testmetod: JunitListTest.testConcat()
-    public static ListNode concat(ListNode l1,ListNode l2) {  
-        return null;
+    public static ListNode concat(ListNode l1,ListNode l2)
+    {
+    	if(l1 == null || l2 == null)
+    		throw new ListsException("Lists: null value passed to concat");
+
+    	ListNode l1Last = Lists.getLastNode(l1);
+    	l1Last.next = l2.next;
+    	l2.next = null;
+    	return l1;
     }
     
     // Testmetod: JunitListTest.testAddAll()
@@ -193,7 +208,8 @@ public class Lists {
     }
       
     // Testmetod: JunitListTest.testReverse()
-    public static ListNode reverse(ListNode head) {  
+    public static ListNode reverse(ListNode head)
+    {
         return null;
     }
 }
