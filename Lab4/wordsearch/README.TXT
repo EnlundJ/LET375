@@ -1,7 +1,7 @@
 Weiss kap. 10.1 Word Search Puzzles
 ===================================
 
-dictionary.txt:		En engelsk ordlista omfattande knappt 27000 ord
+dictionary.txt:		En engelsk ordlista omfattande knappt 110000 ord
 
 Pusselfiler
 N.txt: 			innehåller ett pussel av storlek N x N:
@@ -14,6 +14,7 @@ N.txt: 			innehåller ett pussel av storlek N x N:
 64.txt
 128.txt
 256.txt
+o.s.v.
 
 UHWordSearch.java:	Weiss kap. 10.1 med UH:s modifieringar
 Search.java		Basklass för sökalgoritmer
