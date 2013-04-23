@@ -13,9 +13,29 @@ public class MaxSumTwoDimensions {
     // A couple of two dimensional algorithms for rectangular matrixes.
     
     // O(n^6)
-    public static int maxSubMatrixSumBad( int[][] a ) {
-        // ...
-        return 0;
+    public static int maxSubMatrixSumBad( int[][] a )
+    {
+    	int maxSum = 0;
+ //   	int maxR1 = 0, maxR2 = 0, maxC1 = 0, maxC2 = 0;
+
+    	for(int r1=0; r1 < a.length; r1++)
+        	for(int c1=0; c1 < a[r1].length; c1++)
+        		for(int r2=r1; r2 < a.length; r2++)
+            		for(int c2=c1; c2 < a[r1].length; c2++)
+            		{
+            			int thisSum = 0;
+            			for(int r=r1; r <= r2; r++)
+            				for(int c=c1; c <= c2; c++)
+            				{
+            					thisSum += a[r][c];
+            				}
+            			if(thisSum > maxSum)
+            			{
+            				// maxR1 = r1; maxR2 = r2; maxC1 = c1; maxC2 = c2;
+            				maxSum = thisSum;
+            			}
+            		}
+    	return maxSum;
     }
  
     // O(n^5)
@@ -55,7 +75,7 @@ public class MaxSumTwoDimensions {
             {-5,10,-2,1},
             {4,5,-7,1}
         };
-//         test(sampleMatrix);
+        test(sampleMatrix);
             
         int[][] matrix_10x10 = {    // max sum is 213
             {39,-33,-5,-21,-31,-33,31,32,37,-37},
@@ -69,7 +89,7 @@ public class MaxSumTwoDimensions {
             {17,-50,33,-21,-30,-44,-28,-12,-37,-6},
             {-35,35,-27,44,-42,24,36,43,-49,-46}
         };
-//         test(matrix_10x10);
+        test(matrix_10x10);
         
         int[][] matrix_20x20 = {    // max sum is 346
         	{39,19,39,21,-19,-40,-20,9,-29,42,-48,46,-7,31,-50,-41,5,11,30,23},
@@ -93,7 +113,7 @@ public class MaxSumTwoDimensions {
         	{-11,-9,-48,43,13,-47,-1,-32,-45,-10,-22,-26,36,20,-27,44,29,6,18,-28},
         	{28,46,46,-4,-6,-16,-38,-46,-49,-46,-38,-38,2,46,3,49,-12,-11,-9,31}
         };
-//         test(matrix_20x20);
+         test(matrix_20x20);
         
         // Test the algorithms for random matrixes of increasing sizes.
         for ( int size = 1; size <= 2048; size *= 2 ) {
