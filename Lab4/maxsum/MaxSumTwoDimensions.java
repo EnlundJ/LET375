@@ -45,9 +45,26 @@ public class MaxSumTwoDimensions {
     }
     
     // O(n^4)
-    public static int maxSubMatrixSumEvenBetter( int[][] a ) {
-        // ...
-        return 0;
+    public static int maxSubMatrixSumEvenBetter( int[][] a )
+    {
+    	int maxSum = 0;
+
+    	for(int r1=0; r1 < a.length; r1++)
+       		for(int r2=r1; r2 < a.length; r2++)
+       		{
+       			int sums[] = new int[a[r1].length];
+       			for(int c=0; c < a[r1].length; c++)
+       			{
+       				for(int r=r1; r <= r2; r++)
+       					sums[c] += a[r][c];
+       			}
+       			
+       			int thisLargest = MaxSumOneDimension.maxSubSum3(sums);
+       			if(thisLargest > maxSum)
+       				maxSum = thisLargest;
+       		}
+
+        return maxSum;
     }
     
     private static int[][] randMatrix(int m,int n) {
@@ -60,7 +77,7 @@ public class MaxSumTwoDimensions {
     
     private static void test(int[][] m) {
 // Uncomment as you proceed!
-//         System.out.println("EvenBetter: "+maxSubMatrixSumEvenBetter(m));
+        System.out.println("EvenBetter: "+maxSubMatrixSumEvenBetter(m));
 //         System.out.println("Better: "+maxSubMatrixSumBetter(m));
         System.out.println("Bad: "+maxSubMatrixSumBad(m));
     }
