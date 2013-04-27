@@ -1,10 +1,15 @@
+// Author(s): Einar Blaberg and Niklas Beischer
+// Email: einar.blaberg@gmail.com, niklas.beischer@gmail.com
+// Fire-groupID: 19
+// Date: 2013-04-28
+
 import java.util.Random;
 
 /**
  * Various algorithms for the maximum sub matrix sum problem.
  * 
- * @authors 
- * @version 2011-04-13
+ * @authors Einar Blaberg and Niklas Beischer 
+ * @version 2011-04-28
  */
 public class MaxSumTwoDimensions {
 
@@ -40,8 +45,30 @@ public class MaxSumTwoDimensions {
  
     // O(n^5)
     public static int maxSubMatrixSumBetter( int[][] a ) {
-        // ...
-        return 0;
+    	int maxSum = 0;
+
+    	for(int r1=0; r1 < a.length; r1++)
+    	{
+        	for(int c1=0; c1 < a[r1].length; c1++)
+        	{
+        		for(int r2=r1; r2 < a.length; r2++)
+        		{
+            		int thisSum=0; //reset at every new row
+            		for(int c2=c1; c2 < a[r1].length; c2++)
+            		{
+            			for(int r=r1; r<=r2; r++) //add all the new elements in the new row
+        				{
+            				thisSum+=a[r][c2];
+        				}
+            			if(thisSum > maxSum)
+            			{
+            				maxSum = thisSum;
+            			}
+            		}
+        		}
+        	}
+    	}
+    	return maxSum;
     }
     
     // O(n^4)
@@ -76,10 +103,25 @@ public class MaxSumTwoDimensions {
     }
     
     private static void test(int[][] m) {
-// Uncomment as you proceed!
-        System.out.println("EvenBetter: "+maxSubMatrixSumEvenBetter(m));
-//         System.out.println("Better: "+maxSubMatrixSumBetter(m));
-        System.out.println("Bad: "+maxSubMatrixSumBad(m));
+    	//Uncomment as you proceed!
+    	
+    	long startTime = System.currentTimeMillis( );
+        long totalTime = 0;
+        
+        System.out.print("EvenBetter: "+maxSubMatrixSumEvenBetter(m) + " (");
+        totalTime = System.currentTimeMillis()-startTime;
+        System.out.println(totalTime/10 + "ms)");
+
+        startTime = System.currentTimeMillis( );
+    	System.out.print("Better: "+maxSubMatrixSumBetter(m) + " (");
+        totalTime = System.currentTimeMillis()-startTime;
+        System.out.println(totalTime/10 + "ms)");
+    	
+    	startTime = System.currentTimeMillis( );
+    	System.out.print("Bad: "+maxSubMatrixSumBad(m) + " (");
+        totalTime = System.currentTimeMillis()-startTime;
+        System.out.println(totalTime/10 + "ms)");
+
     }
     
     public static void main(String[] arg) {
@@ -130,7 +172,7 @@ public class MaxSumTwoDimensions {
         	{-11,-9,-48,43,13,-47,-1,-32,-45,-10,-22,-26,36,20,-27,44,29,6,18,-28},
         	{28,46,46,-4,-6,-16,-38,-46,-49,-46,-38,-38,2,46,3,49,-12,-11,-9,31}
         };
-         test(matrix_20x20);
+        test(matrix_20x20);
         
         // Test the algorithms for random matrixes of increasing sizes.
         for ( int size = 1; size <= 2048; size *= 2 ) {
