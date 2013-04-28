@@ -16,7 +16,6 @@ public class MaxSumTwoDimensions {
     private static Random random = new Random();
     
     // A couple of two dimensional algorithms for rectangular matrixes.
-    
     // O(n^6)
     public static int maxSubMatrixSumBad( int[][] a )
     {
@@ -29,7 +28,7 @@ public class MaxSumTwoDimensions {
             		for(int c2=c1; c2 < a[r1].length; c2++)
             		{
             			int thisSum = 0;
-            			for(int r=r1; r <= r2; r++)
+            			for(int r=r1; r <= r2; r++) //for each r1,c1->r2,c2; add each element to thisSum
             				for(int c=c1; c <= c2; c++)
             				{
             					thisSum += a[r][c];
@@ -48,17 +47,15 @@ public class MaxSumTwoDimensions {
     	int maxSum = 0;
 
     	for(int r1=0; r1 < a.length; r1++)
-    	{
         	for(int c1=0; c1 < a[r1].length; c1++)
-        	{
         		for(int r2=r1; r2 < a.length; r2++)
         		{
             		int thisSum=0; //reset at every new row
             		for(int c2=c1; c2 < a[r1].length; c2++)
             		{
-            			for(int r=r1; r<=r2; r++) //add all the new elements in the new row
+            			for(int r=r1; r<=r2; r++) 
         				{
-            				thisSum+=a[r][c2];
+            				thisSum+=a[r][c2]; //add (only) the new elements from the new row
         				}
             			if(thisSum > maxSum)
             			{
@@ -66,8 +63,6 @@ public class MaxSumTwoDimensions {
             			}
             		}
         		}
-        	}
-    	}
     	return maxSum;
     }
     
@@ -90,7 +85,6 @@ public class MaxSumTwoDimensions {
        			if(thisLargest > maxSum)
        				maxSum = thisLargest;
        		}
-
         return maxSum;
     }
     
@@ -105,22 +99,21 @@ public class MaxSumTwoDimensions {
     private static void test(int[][] m) {
     	//Uncomment as you proceed!
     	
-    	long startTime = System.currentTimeMillis( );
-        long totalTime = 0;
+    	long startTime = System.currentTimeMillis(), totalTime;
         
         System.out.print("EvenBetter: "+maxSubMatrixSumEvenBetter(m) + " (");
         totalTime = System.currentTimeMillis()-startTime;
-        System.out.println(totalTime/10 + "ms)");
+        System.out.println(totalTime + ")");
 
         startTime = System.currentTimeMillis( );
     	System.out.print("Better: "+maxSubMatrixSumBetter(m) + " (");
         totalTime = System.currentTimeMillis()-startTime;
-        System.out.println(totalTime/10 + "ms)");
+        System.out.println(totalTime + ")");
     	
     	startTime = System.currentTimeMillis( );
     	System.out.print("Bad: "+maxSubMatrixSumBad(m) + " (");
         totalTime = System.currentTimeMillis()-startTime;
-        System.out.println(totalTime/10 + "ms)");
+        System.out.println(totalTime + ")");
 
     }
     
