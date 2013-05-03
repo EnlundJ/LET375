@@ -36,17 +36,36 @@ public class Mobile {
 	// Return the maximum height of the mobile
 	public int getHeight() {
 	    // ...
-		return 0;
+		if(isSimple())
+			return 1;
+		return left.getHeight() > right.getHeight() ? 1+left.getHeight() : 1+right.getHeight();
 	}  
 	
 	// Print the leaves of the mobile
 	public void flatten()  {
 	      // ...
+		if(isSimple())
+			System.out.print(weight + " ");
+		else
+		{
+			left.flatten(); //för att ändra ordning byts plats på dessa två rader
+			right.flatten();
+		}
 	}  
 	
 //	Print a structured view of the mobile
 	public void prettyPrint() {
 	      // ...
+		if(isSimple())
+			System.out.print("("+weight+")");
+		else
+		{
+			System.out.print("[");
+			left.prettyPrint();
+			System.out.print(", " + leftLength + ", ");
+			right.prettyPrint();
+			System.out.print(", " + rightLength + "]");
+		}
 	}
 	
 // Determine if the mobile is balanced
@@ -61,7 +80,17 @@ public class Mobile {
 // Determine if two mobiles are equal	
 	public boolean equals(  Mobile rhs ) {
 	    // ...
-	    return false;
+		final double eps = 0.000001;
+		if(isSimple())
+		{
+			return rhs.isSimple() && (Math.abs(weight - rhs.weight) < eps);
+		}
+		else
+		{
+			return (Math.abs(leftLength-rhs.leftLength) < eps) &&
+					(Math.abs(rightLength - rhs.rightLength) < eps) &&
+					(left.equals(rhs.left) && right.equals(rhs.right));
+		}
 	}
 	
 //	Return a clone of this mobile
@@ -73,6 +102,20 @@ public class Mobile {
 // Change this mobile to its mirror image
 	public void mirror() {
          // ...
+		if(isSimple())
+			return;
+		else
+		{
+			left.mirror(); right.mirror();
+			
+			float tempLength=rightLength;
+			rightLength=leftLength;
+			leftLength=tempLength;
+			
+			Mobile temp=right;
+			right=left;
+			left=temp;
+		}
 	}
 	
 	private boolean isSimple() { 
@@ -86,14 +129,14 @@ public class Mobile {
 	
 		System.out.println("Total mass: " + m.getWeight() );
 
-		//System.out.println("Height:     " + m.getHeight() );
-		//m.flatten(); System.out.println();
-		//m.prettyPrint(); System.out.println();
+		System.out.println("Height:     " + m.getHeight() );
+		m.flatten(); System.out.println(); 
+		m.prettyPrint(); System.out.println();
 		if ( m.isBalanced() )
 			System.out.println("Balanced!");
 		else
 			System.out.println("Not balanced!");
-/*		
+		
 		Mobile m22 = new Mobile( new Mobile( 2 ), 6,  new Mobile( 3 ), 4 ),
 		       m3 = new Mobile( m1, 10, m22, 2 );
 		if ( m.equals(m3) )
@@ -116,6 +159,6 @@ public class Mobile {
 		m.prettyPrint(); System.out.println();
 		m.mirror();
 		m.prettyPrint(); System.out.println();
-*/
+
 	}
 }
