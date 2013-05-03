@@ -1,24 +1,45 @@
 import java.io.IOException;
 /**
- * @author NN
- * @version 2012-05-
+ * @author Einar Blåberg och Niklas Beischer
+ * @version 2012-05-03
  */
 public class LinearRecursion {
 // A.1
     public static void reverseInput() {
         // toDo 
+    	char c=0;
+    	try 
+    	{
+    		c=(char)System.in.read();
+    	}
+    	catch (Exception e)
+    	{
+    		;
+    	}
+    	if(c!='\n')
+    		reverseInput();
+    	System.out.print(c);
     }
         
 // A.2
     public static int multiply(int m,int n) {
         // toDo 
-        return 0;
+    	
+    	if(n==0 || m==0)
+    		return 0;
+    	else
+    		if(n<0)
+    			return -m+multiply(m, n+1);
+    		else
+    			return m+multiply(m, n-1);
     } 
     
 // A.3
     public static int countDigits(int n) {
         // toDo 
-        return 0;
+    	if(n/10 == 0)
+    		return 1;
+    	return 1+countDigits(n/10);
     }
            
     public static ListNode cons( int element, ListNode l ) {
@@ -60,19 +81,22 @@ public class LinearRecursion {
  * ********************************************/
     public static void main(String[] args) throws IOException {
 // A.1
-     reverseInput();
+     //reverseInput();
      System.out.println();
 // A.2
-//      System.out.println(multiply(5,7));
-//      System.out.println(multiply(-5,7));
-//      System.out.println(multiply(-5,7));
-//      System.out.println(multiply(-5,-7));
-//      System.out.println(multiply(0,7));
-//      System.out.println(multiply(5,0));
+      System.out.println(multiply(5,7));
+      System.out.println(multiply(-5,7));
+      System.out.println(multiply(5,-7)); //bytt plats på -
+      System.out.println(multiply(-5,-7));
+      System.out.println(multiply(0,7));
+      System.out.println(multiply(5,0));
+      System.out.println();
 // A.3
-//      System.out.println(countDigits(0));
-//      System.out.println(countDigits(5));
-//      System.out.println(countDigits(123));
+      System.out.println(countDigits(0));
+      System.out.println(countDigits(5));
+      System.out.println(countDigits(123));
+      System.out.println(countDigits(10));
+      System.out.println(countDigits(1000));
                 
         // An array of some test lists
         ListNode[] ll = {
