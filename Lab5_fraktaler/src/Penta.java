@@ -3,7 +3,6 @@ public class Penta extends Flake {
 	public void draw(Turtle turtle,int n,double size) {
 		this.turtle = turtle;
 		turtle.turnTo(0.0);
-		// Draw a triangular structure of three fractals
 		turtle.turn(-108.0);
 		drawSide(n,size);
 		turtle.turn(72.0);
