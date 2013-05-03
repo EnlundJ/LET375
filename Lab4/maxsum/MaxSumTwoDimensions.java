@@ -1,33 +1,91 @@
+// Author(s): Einar Blaberg and Niklas Beischer
+// Email: einar.blaberg@gmail.com, niklas.beischer@gmail.com
+// Fire-groupID: 19
+// Date: 2013-04-28
+
 import java.util.Random;
 
 /**
  * Various algorithms for the maximum sub matrix sum problem.
  * 
- * @authors 
- * @version 2011-04-13
+ * @authors Einar Blaberg and Niklas Beischer 
+ * @version 2011-04-28
  */
 public class MaxSumTwoDimensions {
 
     private static Random random = new Random();
     
     // A couple of two dimensional algorithms for rectangular matrixes.
-    
     // O(n^6)
-    public static int maxSubMatrixSumBad( int[][] a ) {
-        // ...
-        return 0;
+    public static int maxSubMatrixSumBad( int[][] a )
+    {
+    	int maxSum = 0;
+ //   	int maxR1 = 0, maxR2 = 0, maxC1 = 0, maxC2 = 0;
+
+    	for(int r1=0; r1 < a.length; r1++)
+        	for(int c1=0; c1 < a[r1].length; c1++)
+        		for(int r2=r1; r2 < a.length; r2++)
+            		for(int c2=c1; c2 < a[r1].length; c2++)
+            		{
+            			int thisSum = 0;
+            			for(int r=r1; r <= r2; r++) //for each r1,c1->r2,c2; add each element to thisSum
+            				for(int c=c1; c <= c2; c++)
+            				{
+            					thisSum += a[r][c];
+            				}
+            			if(thisSum > maxSum)
+            			{
+            				// maxR1 = r1; maxR2 = r2; maxC1 = c1; maxC2 = c2;
+            				maxSum = thisSum;
+            			}
+            		}
+    	return maxSum;
     }
  
     // O(n^5)
     public static int maxSubMatrixSumBetter( int[][] a ) {
-        // ...
-        return 0;
+    	int maxSum = 0;
+
+    	for(int r1=0; r1 < a.length; r1++)
+        	for(int c1=0; c1 < a[r1].length; c1++)
+        		for(int r2=r1; r2 < a.length; r2++)
+        		{
+            		int thisSum=0; //reset at every new row
+            		for(int c2=c1; c2 < a[r1].length; c2++)
+            		{
+            			for(int r=r1; r<=r2; r++) 
+        				{
+            				thisSum+=a[r][c2]; //add (only) the new elements from the new row
+        				}
+            			if(thisSum > maxSum)
+            			{
+            				maxSum = thisSum;
+            			}
+            		}
+        		}
+    	return maxSum;
     }
     
     // O(n^4)
-    public static int maxSubMatrixSumEvenBetter( int[][] a ) {
-        // ...
-        return 0;
+    public static int maxSubMatrixSumEvenBetter( int[][] a )
+    {
+    	int maxSum = 0;
+
+    	for(int r1=0; r1 < a.length; r1++)
+       		for(int r2=r1; r2 < a.length; r2++)
+       		{
+       			int sums[] = new int[a[r1].length];
+       			for(int c=0; c < a[r1].length; c++)
+       			{
+       				for(int r=r1; r <= r2; r++)
+       					sums[c] += a[r][c];
+       			}
+       			
+       			int thisLargest = MaxSumOneDimension.maxSubSum3(sums);
+       			if(thisLargest > maxSum)
+       				maxSum = thisLargest;
+       		}
+        return maxSum;
     }
     
     private static int[][] randMatrix(int m,int n) {
@@ -39,10 +97,24 @@ public class MaxSumTwoDimensions {
     }
     
     private static void test(int[][] m) {
-// Uncomment as you proceed!
-//         System.out.println("EvenBetter: "+maxSubMatrixSumEvenBetter(m));
-//         System.out.println("Better: "+maxSubMatrixSumBetter(m));
-        System.out.println("Bad: "+maxSubMatrixSumBad(m));
+    	//Uncomment as you proceed!
+    	
+    	long startTime = System.currentTimeMillis(), totalTime;
+        
+        System.out.print("EvenBetter: "+maxSubMatrixSumEvenBetter(m) + " (");
+        totalTime = System.currentTimeMillis()-startTime;
+        System.out.println(totalTime + ")");
+
+        startTime = System.currentTimeMillis( );
+    	System.out.print("Better: "+maxSubMatrixSumBetter(m) + " (");
+        totalTime = System.currentTimeMillis()-startTime;
+        System.out.println(totalTime + ")");
+    	
+    	startTime = System.currentTimeMillis( );
+    	System.out.print("Bad: "+maxSubMatrixSumBad(m) + " (");
+        totalTime = System.currentTimeMillis()-startTime;
+        System.out.println(totalTime + ")");
+
     }
     
     public static void main(String[] arg) {
@@ -55,7 +127,7 @@ public class MaxSumTwoDimensions {
             {-5,10,-2,1},
             {4,5,-7,1}
         };
-//         test(sampleMatrix);
+        test(sampleMatrix);
             
         int[][] matrix_10x10 = {    // max sum is 213
             {39,-33,-5,-21,-31,-33,31,32,37,-37},
@@ -69,7 +141,7 @@ public class MaxSumTwoDimensions {
             {17,-50,33,-21,-30,-44,-28,-12,-37,-6},
             {-35,35,-27,44,-42,24,36,43,-49,-46}
         };
-//         test(matrix_10x10);
+        test(matrix_10x10);
         
         int[][] matrix_20x20 = {    // max sum is 346
         	{39,19,39,21,-19,-40,-20,9,-29,42,-48,46,-7,31,-50,-41,5,11,30,23},
@@ -93,7 +165,7 @@ public class MaxSumTwoDimensions {
         	{-11,-9,-48,43,13,-47,-1,-32,-45,-10,-22,-26,36,20,-27,44,29,6,18,-28},
         	{28,46,46,-4,-6,-16,-38,-46,-49,-46,-38,-38,2,46,3,49,-12,-11,-9,31}
         };
-//         test(matrix_20x20);
+        test(matrix_20x20);
         
         // Test the algorithms for random matrixes of increasing sizes.
         for ( int size = 1; size <= 2048; size *= 2 ) {

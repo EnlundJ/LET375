@@ -27,9 +27,9 @@ public class UHWordSearch {
     private BufferedReader in = new BufferedReader( new InputStreamReader( System.in ) );
     private Search searchAlg;   
     private final boolean PRINT_WORDS = false;		// turns printing on/off
+    private boolean BINARY_SEARCH = true;			// true => binary search, false => linear search
     private final boolean PREFIX_TESTING = false;	// turns prefix testing on/off, on => binary search
-    private boolean BINARY_SEARCH = false;			// true => binary search, false => linear search
-   
+    
     /**
      * Constructor for WordSearch class.
      * Prompts for and reads puzzle and dictionary files.
@@ -37,8 +37,9 @@ public class UHWordSearch {
     public UHWordSearch( ) throws IOException
     {
         puzzleStream = openFile( "Enter puzzle file" );
-        wordStream   = openFile( "Enter dictionary name" );
+        wordStream   = openDictFile( "Enter dictionary name" ); //always load dictionary.txt
         System.out.println( "Reading files..." );
+        
         readPuzzle( );
         readWords( );
         
@@ -52,7 +53,7 @@ public class UHWordSearch {
      * Performs checks in all eight directions.
      * @return number of matches
      */
-    public int solvePuzzle( )
+    public int solvePuzzle()
     {
         searchAlg = BINARY_SEARCH ? new BinarySearch() : new LinearSearch();
         int matches = 0;
@@ -153,7 +154,39 @@ public class UHWordSearch {
         System.out.println( "Opened " + fileName );
         return fileIn;
     }
-        
+
+    /**
+     * Open the dictionary-file, copy of openFile(String message)
+     * Retry until open is successful.
+     * Program exits if end of file is hit.
+     */
+    private BufferedReader openDictFile( String message )
+    {
+        String fileName = "dictionary.txt"; //dictionary-file to open
+        FileReader theFile;
+        BufferedReader fileIn = null;
+
+        do
+        {
+            System.out.println( message + ": " );
+
+            try
+            {
+                //fileName = in.readLine( );
+                //if( fileName == null )
+                //     System.exit( 0 );
+                theFile = new FileReader( fileName );
+                fileIn  = new BufferedReader( theFile );
+            }
+            catch( IOException e )
+              { System.err.println( "Cannot open " + fileName ); }
+        } while( fileIn == null );
+
+        System.out.println( "Opened " + fileName );
+        return fileIn;
+    }
+
+    
     /**
      * Routine to read the grid.
      * Checks to ensure that the grid is rectangular.
