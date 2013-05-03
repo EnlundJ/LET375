@@ -96,7 +96,14 @@ public class Mobile {
 //	Return a clone of this mobile
 	public Mobile clone() {
          // ...
-         return null;
+		if(isSimple())
+		{
+			return new Mobile(weight);
+		}
+		else
+		{
+			return new Mobile(left.clone(), leftLength, right.clone(), rightLength);
+		}
 	}
 	
 // Change this mobile to its mirror image
