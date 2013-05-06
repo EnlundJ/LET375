@@ -69,7 +69,7 @@ public class LinearRecursion {
 	 if(l == null)
 		 return null;
 
-	 return cons(l.element, l.next);
+	 return cons(l.element, copy(l.next));
  }
     
 // A.5  
