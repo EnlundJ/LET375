@@ -22,6 +22,8 @@ public class Gui
     private JButton quitButton;    
     private int width = 0, height = 0;
     private Canvas canvas;
+    private BoardDisplay boardDisplay;
+    private Maze maze;
     
     /**
      * Create an Maze explorer and display its GUI on screen.
@@ -77,8 +79,11 @@ public class Gui
      */
     private void createMaze()
     {
-    	showValues(width,height);  // Please remove this call when things starts to work correctly (OW we all go crazy!)
-//    	Develop this method!
+    	//showValues(width,height);  // Please remove this call when things starts to work correctly (OW we all go crazy!)
+    	maze = new Maze(width, height);
+    	boardDisplay = new BoardDisplay(canvas, width, height);
+    	maze.addObserver(boardDisplay);
+    	maze.create();
     	searchButton.setEnabled(true);
     }
 

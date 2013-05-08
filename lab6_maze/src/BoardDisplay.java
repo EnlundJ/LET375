@@ -79,7 +79,29 @@ public class BoardDisplay extends Board implements Observer {
 		canvas.drawLine( colOffset + c1, rowOffset + r1, colOffset + c2, rowOffset + r2 );
 	}
 	    
-	public void update(Observable o, Object arg) {
-//		 Develop this method!
+	public void update(Observable o, Object arg)
+	{
+		if(o instanceof Maze)
+		{
+			if(arg instanceof Point)
+				fillCell(getCellId((Point) arg));
+			else if(arg instanceof Pair<?,?>)
+			{
+				Point first = (Point)((Pair<?,?>)arg).first;
+				Point second = (Point)((Pair<?,?>)arg).second;
+				knockDownWall(getCellId(first), first.getDirection(second));
+			}
+			else
+			{
+				canvas.erase();
+				drawGrid();
+				// Entry into the maze
+				knockDownWall(0, Point.Direction.LEFT);
+				knockDownWall(0, Point.Direction.UP); 
+				// Exit out of the maze
+				knockDownWall(maxCell-1, Point.Direction.RIGHT);
+				knockDownWall(maxCell-1, Point.Direction.DOWN);
+			}
+		}
 	}
 }
