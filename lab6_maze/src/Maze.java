@@ -80,7 +80,7 @@ public class Maze extends Board {
 
     			// Knock down the wall 
     			setChanged();							
-    			notifyObservers(new Pair<Point, Point>(first, second));
+    			notifyObservers(new Pair<Integer, Point.Direction>(cellId, direction));
     			knockedWalls++;
     			
     			// Add edges in graph between the cells
@@ -99,7 +99,7 @@ public class Maze extends Board {
     	for(Integer i : list)
     	{
      		setChanged();
-    		notifyObservers(new Point(getRow(i), getCol(i)));
+    		notifyObservers(i);
     	}
     }
     

@@ -83,17 +83,12 @@ public class BoardDisplay extends Board implements Observer {
 	{
 		if(o instanceof Maze)
 		{
-			if(arg instanceof Point)
-				fillCell(getCellId((Point) arg));
+			if(arg instanceof Integer)
+				fillCell((Integer)arg);
 			else if(arg instanceof Pair<?,?>)
 			{
-				if(((Pair<?,?>)arg).first instanceof Point &&
-				   ((Pair<?,?>)arg).second instanceof Point)
-				{
-					Point first = (Point)((Pair<?,?>)arg).first;
-					Point second = (Point)((Pair<?,?>)arg).second;
-					knockDownWall(getCellId(first), first.getDirection(second));
-				}
+				if(((Pair<?,?>)arg).first instanceof Integer && ((Pair<?,?>)arg).second instanceof Point.Direction)
+					knockDownWall((Integer)((Pair<?,?>)arg).first, (Point.Direction)((Pair<?,?>)arg).second);
 			}
 			else
 			{
