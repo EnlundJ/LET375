@@ -87,9 +87,13 @@ public class BoardDisplay extends Board implements Observer {
 				fillCell(getCellId((Point) arg));
 			else if(arg instanceof Pair<?,?>)
 			{
-				Point first = (Point)((Pair<?,?>)arg).first;
-				Point second = (Point)((Pair<?,?>)arg).second;
-				knockDownWall(getCellId(first), first.getDirection(second));
+				if(((Pair<?,?>)arg).first instanceof Point &&
+				   ((Pair<?,?>)arg).second instanceof Point)
+				{
+					Point first = (Point)((Pair<?,?>)arg).first;
+					Point second = (Point)((Pair<?,?>)arg).second;
+					knockDownWall(getCellId(first), first.getDirection(second));
+				}
 			}
 			else
 			{
