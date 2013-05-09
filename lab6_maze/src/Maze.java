@@ -50,8 +50,24 @@ public class Maze extends Board {
     				continue;
     			}
     			second.move(direction); // Move back
+    			
+    			// Special case where there is only one row
+    			if((direction == Point.Direction.UP || direction == Point.Direction.DOWN) && maxRow == 1)
+    				if(second.col == 0)
+    					direction = Point.Direction.RIGHT;
+    				else
+    					direction = Point.Direction.LEFT; // More left than right but who cares?
+    			
+    			// special case where there is only one column
+    			if((direction == Point.Direction.LEFT || direction == Point.Direction.RIGHT) && maxCol == 1)
+    				if(second.row == 0)
+    					direction = Point.Direction.DOWN;
+    				else
+    					direction = Point.Direction.UP; // More up than down but who cares?
+
     			second.move(direction); // Move in opposite direction
     		}
+    		
     		int firstId = getCellId(first);
     		int secondId = getCellId(second);
     		
@@ -82,15 +98,9 @@ public class Maze extends Board {
     	
     	for(Integer i : list)
     	{
-    		setChanged();
+     		setChanged();
     		notifyObservers(new Point(getRow(i), getCol(i)));
     	}
-/*    	for(Integer i : list)
-    	{
-    		System.out.println(" "+ getCol(i) + ":" + getRow(i));
-    	}
-*/
     }
     
-//    ...
 }
