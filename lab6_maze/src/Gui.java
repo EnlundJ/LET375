@@ -92,8 +92,9 @@ public class Gui
      */
     private void searchMaze()
     {
-    	showMessage("Fake search"); // Please remove!
-//    	Develop this method!
+    	maze.search();
+    	searchButton.setEnabled(false);
+//    	showMessage("Fake search"); // Please remove!
     }
       
     // ---- Swing stuff to build the frame and all its components and menus ----
